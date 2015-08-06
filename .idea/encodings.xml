@@ -8,8 +8,8 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/other/EyesRelaxSettingsActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/other/MainActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/other/OnBootCompletedBroadcastREceiver.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/preferences/NumberPickerFontSizePreference.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/preferences/NumberPickerPreference.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/preferences/NumberPickerRelaxPreference.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/preferences/NumberPickerWorkPreference.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/service/TimeService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/utilities/AnimationProgressBarUtility.java" charset="UTF-8" />

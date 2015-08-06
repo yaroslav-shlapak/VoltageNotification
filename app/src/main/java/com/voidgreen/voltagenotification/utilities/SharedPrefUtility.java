@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
 import com.voidgreen.voltagenotification.R;
-import com.voidgreen.voltagenotification.preferences.NumberPickerRelaxPreference;
+import com.voidgreen.voltagenotification.preferences.NumberPickerFontSizePreference;
 import com.voidgreen.voltagenotification.preferences.NumberPickerWorkPreference;
 
 /**
@@ -18,7 +18,7 @@ public class SharedPrefUtility {
     public static int getRelaxTime(Context context) {
         Resources resources = context.getResources();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        return NumberPickerRelaxPreference.getNumValue(sharedPreferences.getInt(resources.getString(R.string.pref_key_relax_period), DEFAULT));
+        return NumberPickerFontSizePreference.getNumValue(sharedPreferences.getInt(resources.getString(R.string.pref_key_relax_period), DEFAULT));
     }
 
     public static int getWorkTime(Context context) {

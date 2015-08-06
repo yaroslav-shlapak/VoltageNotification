@@ -11,6 +11,8 @@ import android.preference.PreferenceGroup;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.voidgreen.voltagenotification.utilities.Utility;
+
 /**
  * Created by y.shlapak on Jun 17, 2015.
  */

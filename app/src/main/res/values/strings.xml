@@ -50,4 +50,7 @@
     <string name="relaxStage">RELAX STAGE</string>
     <string name="timeLeft">TIME LEFT:</string>
 
+    <string name="voltageNotificationSharedPreference">com.voidgreen.voltagenotification.sharedpreference</string>
+    <string name="batteryInfoSharedPreferenceKey">batteryInfoSharedPreferenceKey</string>
+
 </resources>

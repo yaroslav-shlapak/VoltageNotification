@@ -1,10 +1,13 @@
-package com.voidgreen.voltagenotification;
+package com.voidgreen.voltagenotification.service;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+
+import com.voidgreen.voltagenotification.BatteryInfoReceiver;
+import com.voidgreen.voltagenotification.utilities.Utility;
 
 /**
  * Created by y.shlapak on Jun 11, 2015.

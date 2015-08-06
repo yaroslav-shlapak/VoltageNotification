@@ -7,17 +7,17 @@ import android.view.View;
 /**
  * Created by y.shlapak on Jun 25, 2015.
  */
-public class NumberPickerWorkPreference extends NumberPickerPreference {
-    public static final int MAX_VALUE = 180;
-    public static final int MIN_VALUE = 5;
-    public static final int STEP = 5;
+public class NumberPickerFontSizePreference extends NumberPickerPreference {
+    public static final int MAX_VALUE = 200;
+    public static final int MIN_VALUE = 10;
+    public static final int STEP = 10;
     public final String[] VALUES = getValues(MIN_VALUE, MAX_VALUE, STEP);
 
-    public NumberPickerWorkPreference(Context context, AttributeSet attrs) {
+    public NumberPickerFontSizePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public NumberPickerWorkPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public NumberPickerFontSizePreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -34,4 +34,5 @@ public class NumberPickerWorkPreference extends NumberPickerPreference {
     public static int getNumValue(int index) {
         return index * STEP + MIN_VALUE;
     }
+
 }
