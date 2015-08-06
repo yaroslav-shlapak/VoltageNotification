@@ -1,6 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">VoltageNotification</string>
 
+    <string name="app_name">EyesRelax</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+
+    <string name="pref_key_relax_period">relax period</string>
+    <string name="pref_key_work_period">work period</string>
+
+    <string name="pref_title_relax_period">Relax period</string>
+    <string name="pref_title_work_period">Work period</string>
+
+    <string name="pref_key_start_on_boot">start on boot</string>
+    <string name="pref_title_start_on_boot">Start on boot</string>
+
+    <string name="pref_key_sound">sound settings</string>
+    <string name="pref_title_sound">Sound</string>
+
+    <string name="pref_key_vibration">vibration settings</string>
+    <string name="pref_title_vibration">Vibration</string>
+
+    <string name="pref_key_30s_notification">30s notification</string>
+    <string name="pref_title_30s_notification">30s before relax notification</string>
+
+    <string name="pref_key_pc_mode">enable PC mode</string>
+    <string name="pref_title_pc_mode">Enable PC mode</string>
+
+
+    <string name="serviceTask">serviceTask</string>
+    <string name="startTask">start</string>
+    <string name="pauseTask">pause</string>
+    <string name="stopTask">stop</string>
+    <string name="resumeTask">resume</string>
+    <string name="timeString">timeSting</string>
+    <string name="stageSting">stageSting</string>
+    <string name="eyesRelaxSharedPref">eyesRelaxSharedPref</string>
+
+    <string name="workStageTitle">Working with EyesRelax</string>
+    <string name="relaxStageTitle">On a break…</string>
+    <string name="relaxStageMessage">Take a break</string>
+    <string name="workStageMessage">Start working with EyesRelax</string>
+
+
+    <string name="prerelaxStageMessage">Prepare for a break in 30 seconds</string>
+    <string name="prerelaxStageTitle">Prepare for a break in 30 seconds</string>
+
+    <string name="workStage">WORK STAGE</string>
+    <string name="relaxStage">RELAX STAGE</string>
+    <string name="timeLeft">TIME LEFT:</string>
+
 </resources>
