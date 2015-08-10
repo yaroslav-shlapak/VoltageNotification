@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.util.Log;
 
-import com.voidgreen.voltagenotification.service.TimeService;
+import com.voidgreen.voltagenotification.service.VoltageNotificationService;
 import com.voidgreen.voltagenotification.utilities.Constants;
 import com.voidgreen.voltagenotification.utilities.SharedPrefUtility;
 import com.voidgreen.voltagenotification.utilities.Utility;
@@ -26,9 +26,9 @@ public class OnBootCompletedBroadcastREceiver extends BroadcastReceiver {
             Utility.saveTimeString(context, Constants.ZERO_PROGRESS);
             Utility.saveStageString(context, Constants.WORK_STAGE);
             Resources resources = context.getResources();
-            Intent serviceIntent = new Intent(context, TimeService.class);
+            Intent serviceIntent = new Intent(context, VoltageNotificationService.class);
             serviceIntent.putExtra(resources.getString(R.string.serviceTask), resources.getString(R.string.startTask));
-            serviceIntent.addCategory(TimeService.TAG);
+            serviceIntent.addCategory(VoltageNotificationService.TAG);
             context.startService(serviceIntent);
 
 

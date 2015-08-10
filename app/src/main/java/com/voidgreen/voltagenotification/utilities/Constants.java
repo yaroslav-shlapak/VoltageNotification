@@ -42,4 +42,6 @@ public final class Constants {
     public static final String WORK_STAGE = "WORK STAGE";
     public static final String RELAX_STAGE = "RELAX STAGE";
 
+    public static final String DEBUG_TAG = "voltagenotification.d";
+
 }

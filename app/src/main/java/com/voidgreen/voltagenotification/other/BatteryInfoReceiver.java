@@ -1,4 +1,4 @@
-package com.voidgreen.voltagenotification;
+package com.voidgreen.voltagenotification.other;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,9 +22,9 @@ public class BatteryInfoReceiver extends BroadcastReceiver {
         }
 
 
-        Utility.saveBatteryInfo(context, string);
+/*        Utility.saveBatteryInfo(context, string);
         Utility.updateAllWidgets(context);
 
-        Utility.showToast(context, "BatteryInfoReceiver");
+        Utility.showToast(context, "BatteryInfoReceiver");*/
     }
 }

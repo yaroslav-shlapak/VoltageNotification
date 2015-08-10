@@ -3,25 +3,17 @@ package com.voidgreen.voltagenotification.utilities;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.display.DisplayManager;
 import android.os.Build;
 import android.os.PowerManager;
-import android.os.SystemClock;
 import android.view.Display;
-import android.widget.RemoteViews;
 
-import com.voidgreen.eyesrelax.R;
-import com.voidgreen.voltagenotification.AlarmManagerBroadcastReceiver;
-import com.voidgreen.voltagenotification.service.BatteryInfoService;
 import com.voidgreen.voltagenotification.R;
+import com.voidgreen.voltagenotification.service.BatteryInfoService;
 import com.voidgreen.voltagenotification.service.UpdateService;
-import com.voidgreen.voltagenotification.VoltageWidgetData;
-import com.voidgreen.voltagenotification.VoltageWidgetProvider;
 
 import java.util.concurrent.TimeUnit;
 
@@ -123,27 +115,6 @@ public class Utility {
         editor.apply();
     }
 
-    public static void updateAllWidgets(Context context) {
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        ComponentName thisWidget = new ComponentName(context,
-                VoltageWidgetProvider.class);
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-
-        for (int widgetId : appWidgetManager.getAppWidgetIds(thisWidget)) {
-            updateWidget(context, appWidgetManager, views, widgetId);
-        }
-    }
-
-    public static void updateWidget(Context context, AppWidgetManager appWidgetManager, RemoteViews views, int widgetId) {
-        VoltageWidgetData voltageWidgetData = new VoltageWidgetData(context);
-        views.setTextColor(R.id.batteryInfoTextViewWidget, voltageWidgetData.getTextColor());
-        views.setTextColor(R.id.mV, voltageWidgetData.getTextColor());
-        views.setFloat(R.id.batteryInfoTextViewWidget, "setTextSize", voltageWidgetData.getTextSize());
-        views.setFloat(R.id.mV, "setTextSize", voltageWidgetData.getTextSize() / 3);
-
-        views.setTextViewText(R.id.batteryInfoTextViewWidget, Utility.getSavedBatteryInfo(context));
-        appWidgetManager.updateAppWidget(widgetId, views);
-    }
 
     public static void startBatteryInfoService(Context context) {
         Intent i = new Intent(context, BatteryInfoService.class);
@@ -166,11 +137,11 @@ public class Utility {
     }
 
 
-    public static void startAlarm(Context context) {
+/*    public static void startAlarm(Context context) {
         alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         alarmIntent = PendingIntent.getBroadcast(context, 0, new Intent(context, AlarmManagerBroadcastReceiver.class), 0);
         alarmMgr.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + 10 * 1000, 180 * 1000, alarmIntent);
-    }
+    }*/
 
     public static void stopAlarm() {
         if (alarmMgr!= null) {

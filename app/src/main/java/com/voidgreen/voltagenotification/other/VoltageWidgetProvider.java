@@ -1,10 +1,12 @@
-package com.voidgreen.voltagenotification;
+package com.voidgreen.voltagenotification.other;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+
+import com.voidgreen.voltagenotification.utilities.Utility;
 
 /**
  * Created by y.shlapak on Jun 10, 2015.
@@ -16,8 +18,7 @@ public class VoltageWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
 
-        Utility.updateAllWidgets(context);
-        Utility.showToast(context, "VoltageWidgetProvider:onUpdate");
+
     }
 
 /*    @Override
@@ -36,7 +37,6 @@ public class VoltageWidgetProvider extends AppWidgetProvider {
 
         Utility.startBatteryInfoService(context);
         Utility.startUpdateService(context);
-        Utility.startAlarm(context);
         Utility.showToast(context, "VoltageWidgetProvider:onEnabled");
 
     }

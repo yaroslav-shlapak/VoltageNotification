@@ -5,9 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 
-import com.voidgreen.voltagenotification.WakeupReceiver;
+import com.voidgreen.voltagenotification.other.WakeupReceiver;
 import com.voidgreen.voltagenotification.utilities.Utility;
 
 /**
@@ -35,7 +34,6 @@ public class UpdateService extends Service {
 
     }
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;

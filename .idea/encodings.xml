@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/fragments/PauseStopButtonsFragment.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/fragments/ProgressFragment.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/fragments/StartButtonFragment.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/fragments/TempProgressFragment.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/other/EyesRelaxSettingsActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/other/MainActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/other/OnBootCompletedBroadcastREceiver.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/preferences/NumberPickerFontSizePreference.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/preferences/NumberPickerPreference.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/preferences/NumberPickerWorkPreference.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/service/TimeService.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/utilities/AnimationProgressBarUtility.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/settings/SettingsActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/utilities/Constants.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/utilities/CountDownTimerWithPause.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/utilities/SharedPrefUtility.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/utilities/SharedPrefUtility.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/utilities/SoundUtility.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/utilities/TimeServiceUtility.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/utilities/Utility.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/voidgreen/voltagenotification/utilities/VibratorUtility.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/button.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/circular.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_action_settings.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/pause_stop_button_layout.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/progress_layout.xml" charset="UTF-8" />
@@ -33,5 +28,7 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/xml/button.xml" charset="UTF-8" />
+    <file url="PROJECT" charset="windows-1252" />
   </component>
 </project>

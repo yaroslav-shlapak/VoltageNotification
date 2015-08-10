@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <Button
+        android:text="START"
+        android:textSize="@dimen/buttons_text_size"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/pauseButton"
+        android:textColor="@color/white"
+        android:background="@drawable/button"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />/>
 
-    <fragment
-        android:name="com.voidgreen.eyesrelax.fragments.ProgressFragment"
-        android:id="@+id/progressFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-    </fragment>
-
-    <FrameLayout
-        android:id="@+id/buttonsFrame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2">
-    </FrameLayout>
-
-
-</LinearLayout>
+</RelativeLayout>
