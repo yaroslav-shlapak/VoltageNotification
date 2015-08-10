@@ -19,7 +19,7 @@ import com.voidgreen.voltagenotification.utilities.Constants;
 
 public class MainActivity extends Activity {
     Button startStopButton;
-    String state = "Start";
+    String state = "start";
     VoltageNotificationService mService;
     boolean mBound = false;
 
@@ -50,38 +50,70 @@ public class MainActivity extends Activity {
     private void updateStartStopButton() {
 
 
+        switch (state) {
+            case "start":
+                startNotificationService();
+                startStopButton.setText("STOP");
+                setState("stop");
+                mService.setState(state);
+                Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : start");
+                break;
+
+            case "stop":
+                unbindNotificationService();
+                startStopButton.setText("START");
+                setState("start");
+                mService.setState(state);
+                stopNotificationService();
+
+                Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : stop");
+                break;
+
+            default:
+
+                startStopButton.setText("START");
+                Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : default");
+
+                break;
+        }
+
+    }
+
+    private void updateUI() {
+
         if (mBound) {
             // Call a method from the LocalService.
             // However, if this call were something that might hang, then this request should
             // occur in a separate thread to avoid slowing down the activity performance.
             String state = mService.getState();
+            setState(state);
+
             switch (state) {
                 case "start":
-                    startNotificationService();
-                    startStopButton.setText("STOP");
-                    Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : start");
+                    startStopButton.setText("START");
+
+                    Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : start");
                     break;
 
                 case "stop":
-                    startStopButton.setText("START");
-                    stopNotificationService();
-                    unbindNotificationService();
-                    Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : stop");
+                    startStopButton.setText("STOP");
+                    Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : stop");
                     break;
 
                 default:
-
-                    startNotificationService();
-                    startStopButton.setText("STOP");
-                    Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : default");
+                    startStopButton.setText("START");
+                    Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : default");
 
                     break;
             }
         } else {
             startStopButton.setText("START");
-            Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : else");
+            Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : else");
         }
     }
+
+
+
 
 
     public void unbindNotificationService() {
@@ -171,7 +203,7 @@ public class MainActivity extends Activity {
             VoltageNotificationService.NotificationServiceBinder binder = (VoltageNotificationService.NotificationServiceBinder) service;
             mService = binder.getService();
             mBound = true;
-            updateStartStopButton();
+            updateUI();
         }
 
         @Override

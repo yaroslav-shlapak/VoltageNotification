@@ -9,6 +9,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
@@ -27,9 +30,6 @@ public class VoltageNotificationService extends Service {
     private final IBinder mBinder = new NotificationServiceBinder();
     private String state = "start";
     private NotificationManager mNotificationManager;
-    BroadcastReceiver screenOnOffReceiver;
-
-
 
     /**
      * Class used for the client Binder.  Because we know this service always
@@ -55,22 +55,19 @@ public class VoltageNotificationService extends Service {
         super.onCreate();
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Log.d(Constants.DEBUG_TAG, "NotificationService : onCreate");
-        setState("start");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Resources resources = getResources();
-        setState("start");
         Log.d(Constants.DEBUG_TAG, "NotificationService : onStartCommand");
 
 
-        startNotification(R.string.notificationTitle, R.string.notificationTickerTitle, R.id.action_settings, R.id.action_settings);
+        startNotification(R.string.notificationTitle, R.string.notificationTickerTitle, R.drawable.voltage_white, R.drawable.voltage_white);
         return super.onStartCommand(intent, flags, startId);
     }
     @Override
     public IBinder onBind(Intent intent) {
-        setState("start");
         Log.d(Constants.DEBUG_TAG, "NotificationService : onBind");
         return mBinder;
     }
@@ -78,7 +75,6 @@ public class VoltageNotificationService extends Service {
     @Override
     public boolean onUnbind(Intent intent) {
         //getApplicationContext().unregisterReceiver(screenOnOffReceiver);
-        setState("stop");
         Log.d(Constants.DEBUG_TAG, "NotificationService : onUnbind");
         return super.onUnbind(intent);
     }
@@ -86,11 +82,9 @@ public class VoltageNotificationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        setState("stop");
         Utility.saveTimeString(getApplicationContext(), Constants.ZERO_PROGRESS);
         Log.d(Constants.DEBUG_TAG, "NotificationService : onDestroy");
         mNotificationManager.cancel(Constants.NOTIFICATION_COUNTDOWN_ID);
-        getApplicationContext().unregisterReceiver(screenOnOffReceiver);
     }
 
     private void startNotification(int titleText, int tickerText, int smallIcon, int largeIcon) {
@@ -154,6 +148,20 @@ public class VoltageNotificationService extends Service {
                 );
         notificationBuilder.setContentIntent(resultPendingIntent);
         return notificationBuilder;
+    }
+
+    public Bitmap textAsBitmap(String text, float textSize, int textColor) {
+        Paint paint = new Paint();
+        paint.setTextSize(textSize);
+        paint.setColor(textColor);
+        paint.setTextAlign(Paint.Align.LEFT);
+        float baseline = -paint.ascent(); // ascent() is negative
+        int width = (int) (paint.measureText(text) + 0.5f); // round
+        int height = (int) (baseline + paint.descent() + 0.5f);
+        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(image);
+        canvas.drawText(text, 0, baseline, paint);
+        return image;
     }
 
 }
