@@ -1,4 +1,4 @@
-package com.voidgreen.voltagenotification;
+package com.voidgreen.voltagenotification.other;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,10 +11,10 @@ public class WakeupReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Utility.startBatteryInfoService(context);
+/*        Utility.startBatteryInfoService(context);
         Utility.updateAllWidgets(context);
         //Utility.startAlarm(context);
-        Utility.showToast(context, "WakeupReceiver");
+        Utility.showToast(context, "WakeupReceiver");*/
 
     }
 }

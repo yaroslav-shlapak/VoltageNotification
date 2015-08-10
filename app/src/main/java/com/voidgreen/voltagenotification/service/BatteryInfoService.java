@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 
-import com.voidgreen.voltagenotification.BatteryInfoReceiver;
+import com.voidgreen.voltagenotification.other.BatteryInfoReceiver;
 import com.voidgreen.voltagenotification.utilities.Utility;
 
 /**

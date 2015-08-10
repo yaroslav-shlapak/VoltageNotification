@@ -1,4 +1,4 @@
-package com.voidgreen.voltagenotification.other;
+package com.voidgreen.voltagenotification.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,19 +7,19 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
 
-import com.voidgreen.eyesrelax.preferences.NumberPickerRelaxPreference;
-import com.voidgreen.eyesrelax.preferences.NumberPickerWorkPreference;
+import com.voidgreen.voltagenotification.R;
+
 
 /**
  * Created by y.shlapak on Jun 25, 2015.
  */
-public class EyesRelaxSettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
+public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        PreferenceManager.setDefaultValues(EyesRelaxSettingsActivity.this, R.xml.preferences, false);
+        PreferenceManager.setDefaultValues(SettingsActivity.this, R.xml.preferences, false);
         initSummary(getPreferenceScreen());
 
     }
@@ -41,14 +41,7 @@ public class EyesRelaxSettingsActivity extends PreferenceActivity implements Sha
     }
 
     private void updatePrefSummary(Preference p) {
-        if (p instanceof NumberPickerRelaxPreference) {
-            NumberPickerRelaxPreference preference = (NumberPickerRelaxPreference) p;
-            p.setSummary(preference.VALUES[preference.getValue()] + " seconds");
-        }
-        if (p instanceof NumberPickerWorkPreference) {
-            NumberPickerWorkPreference preference = (NumberPickerWorkPreference) p;
-            p.setSummary(preference.VALUES[preference.getValue()] + " minutes");
-        }
+
     }
 
     @Override
