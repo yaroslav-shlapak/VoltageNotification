@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.display.DisplayManager;
 import android.os.Build;
@@ -12,8 +11,6 @@ import android.os.PowerManager;
 import android.view.Display;
 
 import com.voidgreen.voltagenotification.R;
-import com.voidgreen.voltagenotification.service.BatteryInfoService;
-import com.voidgreen.voltagenotification.service.UpdateService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -114,34 +111,6 @@ public class Utility {
         editor.putString(context.getString(R.string.batteryInfoSharedPreferenceKey), batteryInfo);
         editor.apply();
     }
-
-
-    public static void startBatteryInfoService(Context context) {
-        Intent i = new Intent(context, BatteryInfoService.class);
-        context.startService(i);
-    }
-
-    public static void stopBatteryInfoService(Context context) {
-        Intent i = new Intent(context, BatteryInfoService.class);
-        context.stopService(i);
-    }
-
-    public static void startUpdateService(Context context) {
-        Intent i = new Intent(context, UpdateService.class);
-        context.startService(i);
-    }
-
-    public static void stopUpdateService(Context context) {
-        Intent i = new Intent(context, UpdateService.class);
-        context.stopService(i);
-    }
-
-
-/*    public static void startAlarm(Context context) {
-        alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmIntent = PendingIntent.getBroadcast(context, 0, new Intent(context, AlarmManagerBroadcastReceiver.class), 0);
-        alarmMgr.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + 10 * 1000, 180 * 1000, alarmIntent);
-    }*/
 
     public static void stopAlarm() {
         if (alarmMgr!= null) {

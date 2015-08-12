@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         startStopButton = (Button) findViewById(R.id.pauseButton);
-        startStopButton.setText(state);
+        setStartStopButtonText(state);
 
 
         startStopButton.setOnClickListener(new View.OnClickListener() {
@@ -52,26 +52,27 @@ public class MainActivity extends Activity {
 
         switch (state) {
             case "start":
-                startNotificationService();
-                startStopButton.setText("STOP");
                 setState("stop");
                 mService.setState(state);
+                if (!mBound) {
+                    bindNotificationService();
+                } else {
+                    updateUI();
+                }
+                startNotificationService();
+
                 Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : start");
                 break;
 
             case "stop":
-                unbindNotificationService();
-                startStopButton.setText("START");
                 setState("start");
                 mService.setState(state);
+                unbindNotificationService();
                 stopNotificationService();
-
                 Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : stop");
                 break;
 
             default:
-
-                startStopButton.setText("START");
                 Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : default");
 
                 break;
@@ -90,31 +91,32 @@ public class MainActivity extends Activity {
 
             switch (state) {
                 case "start":
-                    startStopButton.setText("START");
+                    setStartStopButtonText("START");
 
                     Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : start");
                     break;
 
                 case "stop":
-                    startStopButton.setText("STOP");
+                    setStartStopButtonText("STOP");
                     Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : stop");
                     break;
 
                 default:
-                    startStopButton.setText("START");
+                    setStartStopButtonText("START");
                     Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : default");
 
                     break;
             }
         } else {
-            startStopButton.setText("START");
+            setStartStopButtonText("START");
             Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : else");
         }
     }
 
-
-
-
+    private void setStartStopButtonText(String text) {
+        startStopButton.setText(text);
+        Log.d(Constants.DEBUG_TAG, "MainActivity : setStartStopButtonText : " + text);
+    }
 
     public void unbindNotificationService() {
         if (mBound) {
@@ -156,10 +158,12 @@ public class MainActivity extends Activity {
     }
 
     private void stopNotificationService() {
+        updateUI();
         Log.d(Constants.DEBUG_TAG, "MainActivity : stopNotificationService");
         Intent intent = new Intent(this, VoltageNotificationService.class);
         intent.addCategory(VoltageNotificationService.TAG);
         stopService(intent);
+
     }
 
 

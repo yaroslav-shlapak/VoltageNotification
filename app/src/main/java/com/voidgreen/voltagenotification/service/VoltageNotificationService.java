@@ -8,16 +8,18 @@ import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.BitmapFactory;
+import android.os.BatteryManager;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.voidgreen.voltagenotification.MainActivity;
 import com.voidgreen.voltagenotification.R;
+import com.voidgreen.voltagenotification.other.VoltageValueToDrawableConverter;
 import com.voidgreen.voltagenotification.utilities.Constants;
 import com.voidgreen.voltagenotification.utilities.Utility;
 
@@ -30,6 +32,9 @@ public class VoltageNotificationService extends Service {
     private final IBinder mBinder = new NotificationServiceBinder();
     private String state = "start";
     private NotificationManager mNotificationManager;
+    private BroadcastReceiver batteryinfoReceiver;
+    private String batteryVoltage = "Not available";
+    private int voltage = 0;
 
     /**
      * Class used for the client Binder.  Because we know this service always
@@ -48,22 +53,27 @@ public class VoltageNotificationService extends Service {
 
     public void setState(String state) {
         this.state = state;
+        Log.d(Constants.DEBUG_TAG, "NotificationService : setState : " + state);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        batteryinfoReceiver = new BatteryInfoReceiver();
+        registerReceiver(batteryinfoReceiver, filter);
         Log.d(Constants.DEBUG_TAG, "NotificationService : onCreate");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Resources resources = getResources();
+        startNotification(R.string.notificationTitle, R.string.notificationTickerTitle,
+                R.drawable.ic_voltage_icon,
+                R.mipmap.ic_launcher);
+        updateNotification(batteryVoltage);
         Log.d(Constants.DEBUG_TAG, "NotificationService : onStartCommand");
-
-
-        startNotification(R.string.notificationTitle, R.string.notificationTickerTitle, R.drawable.voltage_white, R.drawable.voltage_white);
         return super.onStartCommand(intent, flags, startId);
     }
     @Override
@@ -84,23 +94,22 @@ public class VoltageNotificationService extends Service {
         super.onDestroy();
         Utility.saveTimeString(getApplicationContext(), Constants.ZERO_PROGRESS);
         Log.d(Constants.DEBUG_TAG, "NotificationService : onDestroy");
-        mNotificationManager.cancel(Constants.NOTIFICATION_COUNTDOWN_ID);
+        mNotificationManager.cancel(Constants.NOTIFICATION_BATTERY_INFO_ID);
+        unregisterReceiver(batteryinfoReceiver);
     }
 
     private void startNotification(int titleText, int tickerText, int smallIcon, int largeIcon) {
         notificationBuilder = setNotification(titleText, tickerText, smallIcon, largeIcon, true);
-
-        notificationBuilder.setContentText("");
-
-        buildNotification(Constants.NOTIFICATION_COUNTDOWN_ID, notificationBuilder, true);
+        notificationBuilder.setContentText(batteryVoltage);
+        buildNotification(Constants.NOTIFICATION_BATTERY_INFO_ID, notificationBuilder, true);
 
     }
 
     private void updateNotification(String notificationString) {
         if (notificationBuilder != null) {
             notificationBuilder.setContentText(notificationString);
-            //startForeground(Constants.NOTIFICATION_COUNTDOWN_ID, notificationBuilder.build());
-            mNotificationManager.notify(Constants.NOTIFICATION_COUNTDOWN_ID, notificationBuilder.build());
+            notificationBuilder.setSmallIcon(VoltageValueToDrawableConverter.convertVoltgeIntToDrawable(getApplicationContext(), voltage));
+            mNotificationManager.notify(Constants.NOTIFICATION_BATTERY_INFO_ID, notificationBuilder.build());
         }
     }
 
@@ -126,11 +135,11 @@ public class VoltageNotificationService extends Service {
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, MainActivity.class);
 
-/*        Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), largeIcon),
+        Bitmap bm = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), largeIcon),
                 getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_width),
                 getResources().getDimensionPixelSize(android.R.dimen.notification_large_icon_height),
                 true);
-        notificationBuilder.setLargeIcon(bm);*/
+        notificationBuilder.setLargeIcon(bm);
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
@@ -150,18 +159,21 @@ public class VoltageNotificationService extends Service {
         return notificationBuilder;
     }
 
-    public Bitmap textAsBitmap(String text, float textSize, int textColor) {
-        Paint paint = new Paint();
-        paint.setTextSize(textSize);
-        paint.setColor(textColor);
-        paint.setTextAlign(Paint.Align.LEFT);
-        float baseline = -paint.ascent(); // ascent() is negative
-        int width = (int) (paint.measureText(text) + 0.5f); // round
-        int height = (int) (baseline + paint.descent() + 0.5f);
-        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(image);
-        canvas.drawText(text, 0, baseline, paint);
-        return image;
+    private class BatteryInfoReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            voltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 4000);
+
+            if (voltage < 2800 || voltage > 10000) {
+                batteryVoltage = "Your device is not supported";
+                voltage = 0;
+            } else {
+                batteryVoltage = Integer.toString(voltage) + "mV";
+            }
+            Log.d(Constants.DEBUG_TAG, "NotificationService : BatteryInfoReceiver : onReceive");
+            updateNotification(batteryVoltage);
+
+        }
     }
 
 }
