@@ -22,6 +22,7 @@ public class MainActivity extends Activity {
     String state = "start";
     VoltageNotificationService mService;
     boolean mBound = false;
+    boolean uiForbid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 updateStartStopButton();
+                uiForbid = true;
 
 
             }
@@ -56,17 +58,16 @@ public class MainActivity extends Activity {
                 mService.setState(state);
                 if (!mBound) {
                     bindNotificationService();
-                } else {
-                    updateUI();
                 }
+                setStartStopButtonText("STOP");
                 startNotificationService();
-
                 Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : start");
                 break;
 
             case "stop":
                 setState("start");
                 mService.setState(state);
+                setStartStopButtonText("START");
                 unbindNotificationService();
                 stopNotificationService();
                 Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : stop");
@@ -74,7 +75,6 @@ public class MainActivity extends Activity {
 
             default:
                 Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : default");
-
                 break;
         }
 
@@ -82,34 +82,25 @@ public class MainActivity extends Activity {
 
     private void updateUI() {
 
-        if (mBound) {
-            // Call a method from the LocalService.
-            // However, if this call were something that might hang, then this request should
-            // occur in a separate thread to avoid slowing down the activity performance.
+        if (mBound && !uiForbid) {
             String state = mService.getState();
             setState(state);
 
             switch (state) {
                 case "start":
                     setStartStopButtonText("START");
-
                     Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : start");
                     break;
-
                 case "stop":
                     setStartStopButtonText("STOP");
                     Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : stop");
                     break;
-
                 default:
-                    setStartStopButtonText("START");
                     Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : default");
-
                     break;
             }
         } else {
-            setStartStopButtonText("START");
-            Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : else");
+            Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : mBound = false");
         }
     }
 
@@ -145,7 +136,9 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         Log.d(Constants.DEBUG_TAG, "MainActivity : onResume");
+        uiForbid = false;
         bindNotificationService();
+
 
     }
 
@@ -158,7 +151,6 @@ public class MainActivity extends Activity {
     }
 
     private void stopNotificationService() {
-        updateUI();
         Log.d(Constants.DEBUG_TAG, "MainActivity : stopNotificationService");
         Intent intent = new Intent(this, VoltageNotificationService.class);
         intent.addCategory(VoltageNotificationService.TAG);
@@ -166,11 +158,26 @@ public class MainActivity extends Activity {
 
     }
 
+    private ServiceConnection mConnection = new ServiceConnection() {
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            Log.d(Constants.DEBUG_TAG, "mConnection : onServiceConnected");
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            VoltageNotificationService.NotificationServiceBinder binder = (VoltageNotificationService.NotificationServiceBinder) service;
+            mService = binder.getService();
+            mBound = true;
+            updateUI();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            Log.d(Constants.DEBUG_TAG, "mConnection : onServiceDisconnected");
+            mBound = false;
+        }
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -192,28 +199,4 @@ public class MainActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
-    /**
-     * Defines callbacks for service binding, passed to bindService()
-     */
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            Log.d(Constants.DEBUG_TAG, "mConnection : onServiceConnected");
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            VoltageNotificationService.NotificationServiceBinder binder = (VoltageNotificationService.NotificationServiceBinder) service;
-            mService = binder.getService();
-            mBound = true;
-            updateUI();
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            Log.d(Constants.DEBUG_TAG, "mConnection : onServiceDisconnected");
-            mBound = false;
-        }
-    };
 }
