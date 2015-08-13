@@ -16,11 +16,14 @@ public class OnBootCompletedBroadcastREceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+
         if(SharedPrefUtility.isStartOnBootEnabled(context)) {
             Intent serviceIntent = new Intent(context, VoltageNotificationService.class);
             serviceIntent.addCategory(VoltageNotificationService.TAG);
             context.startService(serviceIntent);
-            Log.d(Constants.DEBUG_TAG, "OnBootCompletedBroadcastREceiver : onReceive");
+            Log.d(Constants.DEBUG_TAG, "OnBootCompletedBroadcastREceiver : onReceive : if");
+        } else {
+            Log.d(Constants.DEBUG_TAG, "OnBootCompletedBroadcastREceiver : onReceive : else");
         }
 
     }
