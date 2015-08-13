@@ -1,4 +1,4 @@
-package com.voidgreen.voltagenotification.service;
+package com.voidgreen.voltagenotification.services;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -19,9 +19,8 @@ import android.util.Log;
 
 import com.voidgreen.voltagenotification.MainActivity;
 import com.voidgreen.voltagenotification.R;
-import com.voidgreen.voltagenotification.other.VoltageValueToDrawableConverter;
 import com.voidgreen.voltagenotification.utilities.Constants;
-import com.voidgreen.voltagenotification.utilities.Utility;
+import com.voidgreen.voltagenotification.utilities.SharedPrefUtility;
 
 /**
  * Created by y.shlapak on Aug 10, 2015.
@@ -48,6 +47,7 @@ public class VoltageNotificationService extends Service {
     }
 
     public String getState() {
+        Log.d(Constants.DEBUG_TAG, "NotificationService : getState : " + state);
         return state;
     }
 
@@ -73,6 +73,7 @@ public class VoltageNotificationService extends Service {
                 R.drawable.ic_voltage_icon,
                 R.mipmap.ic_launcher);
         updateNotification(batteryVoltage);
+        setState("stop");
         Log.d(Constants.DEBUG_TAG, "NotificationService : onStartCommand");
         return super.onStartCommand(intent, flags, startId);
     }
@@ -92,7 +93,6 @@ public class VoltageNotificationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Utility.saveTimeString(getApplicationContext(), Constants.ZERO_PROGRESS);
         Log.d(Constants.DEBUG_TAG, "NotificationService : onDestroy");
         mNotificationManager.cancel(Constants.NOTIFICATION_BATTERY_INFO_ID);
         unregisterReceiver(batteryinfoReceiver);
@@ -108,7 +108,7 @@ public class VoltageNotificationService extends Service {
     private void updateNotification(String notificationString) {
         if (notificationBuilder != null) {
             notificationBuilder.setContentText(notificationString);
-            notificationBuilder.setSmallIcon(VoltageValueToDrawableConverter.convertVoltgeIntToDrawable(getApplicationContext(), voltage));
+            notificationBuilder.setSmallIcon(SharedPrefUtility.convertVoltageIntToDrawable(getApplicationContext(), voltage));
             mNotificationManager.notify(Constants.NOTIFICATION_BATTERY_INFO_ID, notificationBuilder.build());
         }
     }
@@ -164,7 +164,7 @@ public class VoltageNotificationService extends Service {
         public void onReceive(Context context, Intent intent) {
             voltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 4000);
 
-            if (voltage < 2800 || voltage > 10000) {
+            if (voltage < Constants.MIN_VOLTAGE || voltage > Constants.MAX_VOLTAGE ) {
                 batteryVoltage = "Your device is not supported";
                 voltage = 0;
             } else {
@@ -172,7 +172,6 @@ public class VoltageNotificationService extends Service {
             }
             Log.d(Constants.DEBUG_TAG, "NotificationService : BatteryInfoReceiver : onReceive");
             updateNotification(batteryVoltage);
-
         }
     }
 

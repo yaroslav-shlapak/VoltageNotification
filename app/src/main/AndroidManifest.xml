@@ -34,18 +34,13 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".other.OnBootCompletedBroadcastREceiver">
+        <receiver android:name=".receivers.OnBootCompletedBroadcastREceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".service.VoltageNotificationService"></service>
-
-        <!--        <service android:name=".BatteryInfoService"></service>
-                <service android:name=".UpdateService"></service>
-
-                <receiver android:name=".AlarmManagerBroadcastReceiver" />-->
+        <service android:name=".services.VoltageNotificationService"></service>
 
     </application>
 

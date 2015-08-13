@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.voidgreen.voltagenotification.service.VoltageNotificationService;
+import com.voidgreen.voltagenotification.services.VoltageNotificationService;
 import com.voidgreen.voltagenotification.settings.SettingsActivity;
 import com.voidgreen.voltagenotification.utilities.Constants;
 
@@ -130,6 +130,8 @@ public class MainActivity extends Activity {
         // Unbind from the service
         Log.d(Constants.DEBUG_TAG, "MainActivity : onPause");
         unbindNotificationService();
+        uiForbid = false;
+
     }
 
     @Override

@@ -5,18 +5,10 @@ package com.voidgreen.voltagenotification.utilities;
  */
 public final class Constants {
 
-    public static final String BROADCAST_TIME_STRING_NAME =
-            "com.voidgreen.eyesrelax.TIME_STRING_NAME";
-
-    public static final String BROADCAST_TIME_STRING_DATA =
-            "com.voidgreen.eyesrelax.TIME_STRING_DATA";
-
     public static final int NOTIFICATION_BATTERY_INFO_ID = 103;
-
-    public static final String ZERO_PROGRESS = "00:00:00";
-
-    public static final String WORK_STAGE = "WORK STAGE";
-
     public static final String DEBUG_TAG = "voltagenotification.d";
+
+    public static final int MAX_VOLTAGE = 10000;
+    public static final int MIN_VOLTAGE = 2800;
 
 }

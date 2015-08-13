@@ -1,16 +1,13 @@
-package com.voidgreen.voltagenotification.other;
+package com.voidgreen.voltagenotification.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.util.Log;
 
-import com.voidgreen.voltagenotification.service.VoltageNotificationService;
+import com.voidgreen.voltagenotification.services.VoltageNotificationService;
 import com.voidgreen.voltagenotification.utilities.Constants;
 import com.voidgreen.voltagenotification.utilities.SharedPrefUtility;
-import com.voidgreen.voltagenotification.utilities.Utility;
-import com.voidgreen.voltagenotification.R;
 
 /**
  * Created by Void on 17-Jul-15.
@@ -18,20 +15,12 @@ import com.voidgreen.voltagenotification.R;
 public class OnBootCompletedBroadcastREceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("OnBootCompletedBroadcastReceiver", "onReceive before if");
 
         if(SharedPrefUtility.isStartOnBootEnabled(context)) {
-            Log.d("OnBootCompletedBroadcastReceiver", "onReceive in if");
-
-            Utility.saveTimeString(context, Constants.ZERO_PROGRESS);
-            Utility.saveStageString(context, Constants.WORK_STAGE);
-            Resources resources = context.getResources();
             Intent serviceIntent = new Intent(context, VoltageNotificationService.class);
-            serviceIntent.putExtra(resources.getString(R.string.serviceTask), resources.getString(R.string.startTask));
             serviceIntent.addCategory(VoltageNotificationService.TAG);
             context.startService(serviceIntent);
-
-
+            Log.d(Constants.DEBUG_TAG, "OnBootCompletedBroadcastREceiver : onReceive");
         }
 
     }
