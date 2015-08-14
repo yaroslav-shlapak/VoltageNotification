@@ -2,23 +2,27 @@ package com.voidgreen.voltagenotification.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.voidgreen.voltagenotification.R;
+import com.voidgreen.voltagenotification.utilities.Constants;
 
 
 /**
  * Created by y.shlapak on Jun 25, 2015.
  */
-public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
+public class SettingsActivity extends PreferenceActivity
+        implements SharedPreferences.OnSharedPreferenceChangeListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
-
+        Log.d(Constants.DEBUG_TAG, "SettingsActivity : onCreate");
         PreferenceManager.setDefaultValues(SettingsActivity.this, R.xml.preferences, false);
         initSummary(getPreferenceScreen());
 
@@ -41,6 +45,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     }
 
     private void updatePrefSummary(Preference p) {
+        if(p instanceof ListPreference) {
+            ListPreference preference = (ListPreference) p;
+            p.setSummary(preference.getEntry());
+        }
 
     }
 

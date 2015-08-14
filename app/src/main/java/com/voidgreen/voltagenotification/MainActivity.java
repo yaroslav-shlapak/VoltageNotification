@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -13,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.voidgreen.voltagenotification.service.VoltageNotificationService;
+import com.voidgreen.voltagenotification.services.VoltageNotificationService;
 import com.voidgreen.voltagenotification.settings.SettingsActivity;
 import com.voidgreen.voltagenotification.utilities.Constants;
 
@@ -22,6 +23,7 @@ public class MainActivity extends Activity {
     String state = "start";
     VoltageNotificationService mService;
     boolean mBound = false;
+    boolean uiForbid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +31,14 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         startStopButton = (Button) findViewById(R.id.pauseButton);
-        startStopButton.setText(state);
+        setStartStopButtonText(state);
 
 
         startStopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateStartStopButton();
+                uiForbid = true;
 
 
             }
@@ -52,28 +55,27 @@ public class MainActivity extends Activity {
 
         switch (state) {
             case "start":
-                startNotificationService();
-                startStopButton.setText("STOP");
                 setState("stop");
                 mService.setState(state);
+                if (!mBound) {
+                    bindNotificationService();
+                }
+                setStartStopButtonText("STOP");
+                startNotificationService();
                 Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : start");
                 break;
 
             case "stop":
-                unbindNotificationService();
-                startStopButton.setText("START");
                 setState("start");
                 mService.setState(state);
+                setStartStopButtonText("START");
+                unbindNotificationService();
                 stopNotificationService();
-
                 Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : stop");
                 break;
 
             default:
-
-                startStopButton.setText("START");
                 Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : default");
-
                 break;
         }
 
@@ -81,40 +83,32 @@ public class MainActivity extends Activity {
 
     private void updateUI() {
 
-        if (mBound) {
-            // Call a method from the LocalService.
-            // However, if this call were something that might hang, then this request should
-            // occur in a separate thread to avoid slowing down the activity performance.
+        if (mBound && !uiForbid) {
             String state = mService.getState();
             setState(state);
 
             switch (state) {
                 case "start":
-                    startStopButton.setText("START");
-
+                    setStartStopButtonText("START");
                     Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : start");
                     break;
-
                 case "stop":
-                    startStopButton.setText("STOP");
+                    setStartStopButtonText("STOP");
                     Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : stop");
                     break;
-
                 default:
-                    startStopButton.setText("START");
                     Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : default");
-
                     break;
             }
         } else {
-            startStopButton.setText("START");
-            Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : else");
+            Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : mBound = false");
         }
     }
 
-
-
-
+    private void setStartStopButtonText(String text) {
+        startStopButton.setText(text);
+        Log.d(Constants.DEBUG_TAG, "MainActivity : setStartStopButtonText : " + text);
+    }
 
     public void unbindNotificationService() {
         if (mBound) {
@@ -137,13 +131,17 @@ public class MainActivity extends Activity {
         // Unbind from the service
         Log.d(Constants.DEBUG_TAG, "MainActivity : onPause");
         unbindNotificationService();
+        uiForbid = false;
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         Log.d(Constants.DEBUG_TAG, "MainActivity : onResume");
+        uiForbid = false;
         bindNotificationService();
+
 
     }
 
@@ -160,39 +158,9 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, VoltageNotificationService.class);
         intent.addCategory(VoltageNotificationService.TAG);
         stopService(intent);
+
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Context context = getApplicationContext();
-                Intent intent = new Intent(this, SettingsActivity.class);
-                this.startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
-    /**
-     * Defines callbacks for service binding, passed to bindService()
-     */
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
@@ -212,4 +180,32 @@ public class MainActivity extends Activity {
             mBound = false;
         }
     };
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Context context = getApplicationContext();
+                intent = new Intent(this, SettingsActivity.class);
+                this.startActivity(intent);
+                return true;
+            case R.id.action_play:
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("market://details?id=com.voidgreen.voltagenotification"));
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

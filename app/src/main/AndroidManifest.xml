@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.voidgreen.voltagenotification" >
     <uses-sdk
-        android:minSdkVersion="16"
+        android:minSdkVersion="15"
         android:targetSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -34,18 +36,13 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".other.OnBootCompletedBroadcastREceiver">
+        <receiver android:name=".receivers.OnBootCompletedBroadcastREceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".service.VoltageNotificationService"></service>
-
-        <!--        <service android:name=".BatteryInfoService"></service>
-                <service android:name=".UpdateService"></service>
-
-                <receiver android:name=".AlarmManagerBroadcastReceiver" />-->
+        <service android:name=".services.VoltageNotificationService"></service>
 
     </application>
 
