@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -30,6 +31,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         startStopButton = (Button) findViewById(R.id.pauseButton);
         setStartStopButtonText(state);
 
@@ -52,7 +54,6 @@ public class MainActivity extends Activity {
 
     private void updateStartStopButton() {
 
-
         switch (state) {
             case "start":
                 setState("stop");
@@ -60,7 +61,7 @@ public class MainActivity extends Activity {
                 if (!mBound) {
                     bindNotificationService();
                 }
-                setStartStopButtonText("STOP");
+                setStartStopButtonText(getResources().getString(R.string.buttonTextStop));
                 startNotificationService();
                 Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : start");
                 break;
@@ -68,7 +69,7 @@ public class MainActivity extends Activity {
             case "stop":
                 setState("start");
                 mService.setState(state);
-                setStartStopButtonText("START");
+                setStartStopButtonText(getResources().getString(R.string.buttonTextStart));
                 unbindNotificationService();
                 stopNotificationService();
                 Log.d(Constants.DEBUG_TAG, "MainActivity : updateStartStopButton : stop");
@@ -89,11 +90,11 @@ public class MainActivity extends Activity {
 
             switch (state) {
                 case "start":
-                    setStartStopButtonText("START");
+                    setStartStopButtonText(getResources().getString(R.string.buttonTextStart));
                     Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : start");
                     break;
                 case "stop":
-                    setStartStopButtonText("STOP");
+                    setStartStopButtonText(getResources().getString(R.string.buttonTextStop));
                     Log.d(Constants.DEBUG_TAG, "MainActivity : updateUI : stop");
                     break;
                 default:

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Voltage Notifier</string>
+    <string name="action_settings">Настройки</string>
+
+    <string name="pref_key_start_on_boot">voltagenotification start on boot</string>
+    <string name="pref_title_start_on_boot">Запускать после перезагрузки</string>
+
+    <string name="pref_text_color_key">text color</string>
+    <string name="pref_text_color_title">Цвет текста в сообщении статус бара</string>
+    <string name="pref_text_color_entry_white">Белый</string>
+    <string name="pref_text_color_entry_black">Черный</string>
+    <string name="pref_text_color_entryValue_white">white</string>
+    <string name="pref_text_color_entryValue_black">black</string>
+
+    <string name="notificationTitle">Текущее напряжение</string>
+    <string name="notificationTickerTitle">Voltage Notifier начал работу</string>
+
+    <string name="buttonTextStart">ПУСК</string>
+    <string name="buttonTextStop">СТОП</string>
+</resources>

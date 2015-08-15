@@ -14,7 +14,10 @@
     <string name="pref_text_color_entryValue_white">white</string>
     <string name="pref_text_color_entryValue_black">black</string>
 
-    <string name="notificationTitle">Voltage value</string>
-    <string name="notificationTickerTitle">Voltage Notification has stared to work</string>
+    <string name="notificationTitle">Current voltage</string>
+    <string name="notificationTickerTitle">Voltage Notifier has stared working</string>
+
+    <string name="buttonTextStart">START</string>
+    <string name="buttonTextStop">STOP</string>
 
 </resources>
